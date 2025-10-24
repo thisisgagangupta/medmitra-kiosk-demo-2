@@ -26,13 +26,18 @@ services:
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
-    # At build time, point the app to the *Render* backend URLs (set after first deploy)
     envVars:
+      # Ensure a modern Node for the Vite build
+      - key: NODE_VERSION
+        value: 20
+      # Inject backend URLs at build time
       - key: VITE_API_BASE
         fromService:
           name: medmitra-fastapi
           type: web
+          property: url
       - key: VITE_VOICE_BASE
         fromService:
           name: medmitra-node
           type: web
+          property: url
