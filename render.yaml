@@ -1,0 +1,38 @@
+services:
+  # FastAPI (Python)
+  - type: web
+    name: medmitra-fastapi
+    env: docker
+    rootDir: .
+    dockerfilePath: backend/Dockerfile
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+
+  # Node backend (Twilio, kiosk, etc.)
+  - type: web
+    name: medmitra-node
+    env: docker
+    rootDir: .
+    dockerfilePath: node-backend/Dockerfile
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+
+  # Frontend (Vite)
+  - type: web
+    name: medmitra-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    # At build time, point the app to the *Render* backend URLs (set after first deploy)
+    envVars:
+      - key: VITE_API_BASE
+        fromService:
+          name: medmitra-fastapi
+          type: web
+      - key: VITE_VOICE_BASE
+        fromService:
+          name: medmitra-node
+          type: web
