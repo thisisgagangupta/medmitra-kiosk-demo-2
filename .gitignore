@@ -163,3 +163,27 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+# node / frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+pnpm-lock.yaml
+bun.lockb
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# env/secrets
+*.env
+.env
+backend/.env
+*.csv
