@@ -8,16 +8,24 @@ services:
     plan: free
     healthCheckPath: /health
     autoDeploy: true
+    envVars:
+      - key: FRONTEND_URL
+        value: ""         # optional, can set after frontend is live
+      - key: CORS_EXTRA
+        value: ""         # comma-separated origins if needed
 
-  # Node backend (Twilio, kiosk, etc.)
+  # Node backend
   - type: web
     name: medmitra-node
     env: docker
     rootDir: .
     dockerfilePath: node-backend/Dockerfile
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /healthz
     autoDeploy: true
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: ""         # comma-separated origins if needed
 
   # Frontend (Vite)
   - type: web
@@ -26,8 +34,12 @@ services:
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
-    # optional: ensure modern Node for the Vite build
     envVars:
       - key: NODE_VERSION
-        value: 20
+        value: "20"
+      # You will set these two after the backends are live:
+      - key: VITE_API_BASE
+        value: ""
+      - key: VITE_VOICE_BASE
+        value: ""
     autoDeploy: true
