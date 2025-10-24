@@ -10,7 +10,7 @@ services:
     autoDeploy: true
     envVars:
       - key: FRONTEND_URL
-        value: ""         # optional, can set after frontend is live
+        value: ""         # set later to your frontend URL if you want strict CORS
       - key: CORS_EXTRA
         value: ""         # comma-separated origins if needed
 
@@ -37,7 +37,7 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
-      # You will set these two after the backends are live:
+      # set these two AFTER the backends are live:
       - key: VITE_API_BASE
         value: ""
       - key: VITE_VOICE_BASE
